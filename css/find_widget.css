@@ -1,0 +1,7 @@
+.monaco-editor .find-widget .monaco-sash {
+    display: none;
+}
+
+.monaco-editor .find-widget .monaco-sash :hover {
+    display: none;
+}
