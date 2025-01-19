@@ -16,3 +16,4 @@ action `Reload Custom CSS and JS` must be run.
  - `Titlebar` **gradient**.
  - `Titlebar` text buttons.
  - `VSCode` x `Jetbrains` **icon**.
+ - **Thicker** and **rounded** border for the selected tab.
