@@ -17,3 +17,6 @@ tsconfig.json
 # Build Files
 .version-getter/**
 build.py
+
+# Resources
+resources/**
