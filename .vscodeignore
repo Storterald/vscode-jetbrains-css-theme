@@ -8,21 +8,12 @@ node_modules/**
 # Git
 .gitignore
 
-# Templates
-colors/**
-templates/**
-
 # Typescript
 src/**
+ts/**
+**/*.tsbuildinfo
 tsconfig.json
 
 # Build Files
 .version-getter/**
 build.py
-
-# Product icons
-resources/product/**
-icons/product-icons-test.html
-
-# Other
-.tests/**

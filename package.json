@@ -9,7 +9,7 @@
   },
   "main": "./build/extension.js",
   "scripts": {
-    "vscode:prepublish": "tsc -p ./"
+    "vscode:prepublish": "tsc --build"
   },
   "activationEvents": [
     "onCommand:workbench.action.selectTheme",
@@ -24,11 +24,14 @@
       "editor.lineHeight": 1.675,
       "workbench.tree.indent": 19,
       "editor.rulers": [
+        80,
         120
       ],
-      "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New'",
+      "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
       "workbench.layoutControl.enabled": false,
-      "workbench.productIconTheme": "jetbrains-new-ui-product-icons"
+      "workbench.productIconTheme": "jetbrains-new-ui-product-icons",
+      "workbench.panel.opensMaximized": "preserve",
+      "workbench.panel.showLabels": false
     }
   },
   "extensionDependencies": [
@@ -43,6 +46,6 @@
     "typescript": "^5.6.3"
   },
   "repository": {
-    "url": "https://github.com/Storterald/Jetbrains-Themes"
+    "url": "https://github.com/Storterald/Jetbrains-IDE-Look"
   }
 }

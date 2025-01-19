@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
                 .readdirSync(cssDirectory)
                 .filter(file => path.extname(file) === '.css')
                 .map(file => `file://${path.resolve(cssDirectory, file)}`);
-        
+
         // Get all custom js files
         const jsDirectory = path.join(context.extensionPath, 'js')
         const jsFiles = fs

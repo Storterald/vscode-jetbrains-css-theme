@@ -1,8 +1,30 @@
-.monaco-workbench .activitybar > .content :not(.monaco-menu) > .monaco-action-bar .action-item.checked .active-item-indicator {
+#storterald-btn-text {
+    margin : unset;
+    font-family: JetBrains Mono, Consolas, 'Courier New', monospace;
+    font-size: 35%;
+    color: #97999e;
+    padding-top: 2%;
+    padding-bottom: 10%;
+}
+
+.active-item-indicator {
     border-radius: .5rem;
     scale: 0.85;
 }
 
-.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item.checked .active-item-indicator:before, .monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item:focus .active-item-indicator:before {
-    border-left: none;
+.monaco-action-bar .active-item-indicator::before {
+    background-color: #4b4c4f !important;
+    border-left: none !important;
+}
+
+.action-label.codicon {
+    flex-direction: column;
+}
+
+.action-label.codicon::before {
+    scale: 75%;
+}
+
+.monaco-action-bar .badge .badge-content {
+    display: none;
 }

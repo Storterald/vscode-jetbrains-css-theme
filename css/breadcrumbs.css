@@ -1,0 +1,18 @@
+.monaco-workbench .part.editor>.content .editor-group-container>.title .breadcrumbs-below-tabs .breadcrumbs-control {
+    display: none;
+}
+
+#storterald-breadcrumbs-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: var(--vscode-breadcrumb-background);
+    z-index: 10;
+    border-top: solid 1px;
+    border-top-color: var(--vscode-editorGroupHeader-border);
+}
+
+.monaco-breadcrumbs {
+    background: inherit;
+    padding-left: .75%;
+}

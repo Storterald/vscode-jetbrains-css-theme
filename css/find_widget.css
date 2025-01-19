@@ -2,6 +2,6 @@
     display: none;
 }
 
-.monaco-editor .find-widget .monaco-sash :hover {
+.monaco-editor .find-widget .monaco-sash::hover {
     display: none;
 }
