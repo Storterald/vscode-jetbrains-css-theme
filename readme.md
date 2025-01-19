@@ -13,3 +13,6 @@ action `Reload Custom CSS and JS` must be run.
  - **Rounded** `action bar` selection and added **text** under the icons.
  - Moved `breadcrumbs` above in the **lower** part of the editor.
  - **Rounded** and **extended** `inlay hints`.
+ - `Titlebar` **gradient**.
+ - `Titlebar` text buttons.
+ - `VSCode` x `Jetbrains` **icon**.
