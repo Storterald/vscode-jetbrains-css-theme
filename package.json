@@ -1,6 +1,7 @@
 {
   "name": "jetbrains-ide-look",
   "displayName": "Jetbrains IDE Look",
+  "icon": "logo.png",
   "description": "Jetbrains IDE Look",
   "version": "--version",
   "publisher": "Storterald",
