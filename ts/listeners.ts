@@ -1,4 +1,4 @@
-function observeDiv(identifier: string, callback: CallableFunction) {
+function observeDiv(identifier: string, callback: CallableFunction): void {
 
         function createObserver(element: Element): MutationObserver | null {
                 if (!element) {
@@ -18,7 +18,7 @@ function observeDiv(identifier: string, callback: CallableFunction) {
                         subtree: false
                 });
 
-                console.log(`Observer created for element [${identifier}]".`);
+                console.log(`Observer created for element [${identifier}].`);
                 return observer;
         }
 
@@ -52,7 +52,7 @@ function observeDiv(identifier: string, callback: CallableFunction) {
 }
 
 
-function moveBreadcrumbs(element: Element) {
+function moveBreadcrumbs(element: Element): void {
         const breadcrumbs = element.querySelector(".monaco-breadcrumbs");
         const editor = document.querySelector("#workbench\\.parts\\.editor");
 
@@ -71,7 +71,7 @@ function moveBreadcrumbs(element: Element) {
         breadcrumbsContainer.appendChild(breadcrumbs);
 }
 
-function addActionsLabels(element: Element) {
+function addActionsLabels(element: Element): void {
         element.querySelectorAll(".active-item-indicator")?.forEach((el) => {
                 el.setAttribute("tabindex", "0");
         });
