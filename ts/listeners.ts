@@ -1,6 +1,10 @@
-function observeDiv(identifier: string, callback: CallableFunction): void {
+function observeDiv(
+        identifier: string,
+        callback: CallableFunction,
+        options: MutationObserverInit = { childList: true, attributes: true, subtree: true }
+): MutationObserver | null {
 
-        function createObserver(element: Element): MutationObserver | null {
+        function createObserver(element: HTMLElement): MutationObserver | null {
                 if (!element) {
                         console.error("Cannot create observer with null element.");
                         return null;
@@ -8,21 +12,23 @@ function observeDiv(identifier: string, callback: CallableFunction): void {
 
                 const observer = new MutationObserver(() => {
                         console.info(`Mutation detected for element [${identifier}]`);
+
+                        // Avoid recursion
+                        observer.disconnect();
+                        
                         callback(element);
+
+                        observer.observe(element.parentElement!, options);
                 });
 
                 // Observe the parent
-                observer.observe(element.parentElement!, {
-                        childList: false,
-                        attributes: true,
-                        subtree: false
-                });
+                observer.observe(element.parentElement!, options);
 
                 console.log(`Observer created for element [${identifier}].`);
                 return observer;
         }
 
-        function waitForDiv(): Promise<Element> {
+        function waitForDiv(): Promise<HTMLElement> {
                 return new Promise((resolve, reject) => {
                         const timeout = 5000; // ms
                         const interval = 100; // ms
@@ -31,7 +37,7 @@ function observeDiv(identifier: string, callback: CallableFunction): void {
                         const checkExist = () => {
                                 const element = document.querySelector(identifier);
                                 if (element)
-                                        resolve(element);
+                                        resolve(element as HTMLElement);
                                 else if (Date.now() - startTime > timeout)
                                         reject(`Timeout: Element [${identifier}] not found within ${timeout}ms`);
                                 else
@@ -42,25 +48,23 @@ function observeDiv(identifier: string, callback: CallableFunction): void {
                 });
         }
 
-        waitForDiv().then((element: Element) => {
+        let observer: MutationObserver | null = null;
+        waitForDiv().then((element: HTMLElement) => {
                 callback(element);
-
-                const observer = createObserver(element);
+                observer = createObserver(element);
         }).catch((error: Error) => {
                 console.error(error);
         });
+
+        return observer;
 }
 
-
-function moveBreadcrumbs(element: Element): void {
-        const breadcrumbs = element.querySelector(".monaco-breadcrumbs");
+function moveBreadcrumbs(element: HTMLElement): void {
         const editor = document.querySelector("#workbench\\.parts\\.editor");
-
-        if (!breadcrumbs || !editor)
+        if (!editor)
                 return;
 
-        // Add custom container
-        // TODO: remove and move Element
+        // Create custom container if it does not exist.
         let breadcrumbsContainer = document.querySelector("#storterald-breadcrumbs-container");
         if (!breadcrumbsContainer) {
                 breadcrumbsContainer = document.createElement("div");
@@ -68,15 +72,47 @@ function moveBreadcrumbs(element: Element): void {
                 editor.appendChild(breadcrumbsContainer);
         }
 
-        breadcrumbsContainer.appendChild(breadcrumbs);
+        // Move breadcrumbs
+        breadcrumbsContainer.appendChild(element);
+
+        // Observer to check for breadcrumbs deletion
+        let options: MutationObserverInit = {
+                childList: true,
+                attributes: false,
+                subtree: false
+        };
+        let observer = new MutationObserver(() => {
+                // Avoid recursion
+                observer.disconnect();
+
+                // The original breadcrumbs is above the custom one
+                let breadcrumbs = document.querySelector(".breadcrumbs-below-tabs");
+                if (breadcrumbs) {
+                        // Replace the now empty breadcrumbs with the new ones
+                        breadcrumbsContainer.removeChild(element);
+                        breadcrumbsContainer.appendChild(breadcrumbs);
+                }
+                
+                observer.observe(element, options);
+        });
+        observer.observe(element, options);
 }
 
-function addActionsLabels(element: Element): void {
-        element.querySelectorAll(".active-item-indicator")?.forEach((el) => {
-                el.setAttribute("tabindex", "0");
-        });
+function moveBottomButtons(element: HTMLElement): void {
+        let top = element.querySelectorAll(".monaco-action-bar.vertical")[0]
+                .querySelector(".actions-container");
+        let bottom = element.querySelectorAll(".monaco-action-bar.vertical")[1]
+                .querySelector(".actions-container");
+        let container = document.querySelector(".titlebar-right")
+                ?.querySelector(".monaco-action-bar");
 
-        const project = element.querySelector(".codicon-explorer-view-icon");
+        if (!bottom || !container || !top)
+                return;
+
+        // This moves the node from the original place
+        container.append(bottom);
+
+        const project = top.querySelector(".codicon-explorer-view-icon");
         if (project) {
                 const p = document.createElement("p");
                 p.appendChild(document.createTextNode("Project"));
@@ -84,7 +120,7 @@ function addActionsLabels(element: Element): void {
                 project.appendChild(p);
         }
 
-        const commit = element.querySelector(".codicon-source-control-view-icon");
+        const commit = top.querySelector(".codicon-source-control-view-icon");
         if (commit) {
                 const p = document.createElement("p");
                 p.appendChild(document.createTextNode("Commit"));
@@ -92,7 +128,7 @@ function addActionsLabels(element: Element): void {
                 commit.appendChild(p);
         }
 
-        const find = element.querySelector(".codicon-search-view-icon");
+        const find = top.querySelector(".codicon-search-view-icon");
         if (find) {
                 const p = document.createElement("p");
                 p.appendChild(document.createTextNode("Find"));
@@ -100,7 +136,7 @@ function addActionsLabels(element: Element): void {
                 find.appendChild(p);
         }
 
-        const plugins = element.querySelector(".codicon-extensions-view-icon");
+        const plugins = top.querySelector(".codicon-extensions-view-icon");
         if (plugins) {
                 const p = document.createElement("p");
                 p.appendChild(document.createTextNode("Plugins"));
@@ -109,5 +145,14 @@ function addActionsLabels(element: Element): void {
         }
 }
 
-observeDiv(".breadcrumbs-below-tabs", moveBreadcrumbs)
-observeDiv(".monaco-action-bar.vertical", addActionsLabels)
+function deleteHoverText(element: HTMLElement) {
+        document.removeChild(element);
+}
+
+observeDiv(".breadcrumbs-below-tabs", moveBreadcrumbs);
+observeDiv("#workbench\\.parts\\.activitybar", moveBottomButtons);
+observeDiv(".context-view.monaco-component.bottom.left", deleteHoverText, {
+        childList: true,
+        attributes: false,
+        subtree: false
+});

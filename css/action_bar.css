@@ -21,7 +21,7 @@
     flex-direction: column;
 }
 
-.action-label.codicon::before {
+.monaco-action-bar.vertical .action-label.codicon::before {
     scale: 75%;
 }
 

@@ -22,3 +22,7 @@
 .menubar-menu-title mnemonic {
     text-decoration: underline;
 }
+
+.titlebar-container .monaco-action-bar {
+    display: flex;
+}
