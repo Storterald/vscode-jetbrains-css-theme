@@ -1,7 +1,8 @@
 function observeDiv(
         identifier: string,
         callback: CallableFunction,
-        options: MutationObserverInit = { childList: true, attributes: true, subtree: true }
+        observe: boolean = true,
+        options: MutationObserverInit = { childList: true, attributes: false, subtree: false }
 ): MutationObserver | null {
 
         function createObserver(element: HTMLElement): MutationObserver | null {
@@ -51,7 +52,9 @@ function observeDiv(
         let observer: MutationObserver | null = null;
         waitForDiv().then((element: HTMLElement) => {
                 callback(element);
-                observer = createObserver(element);
+
+                if (observe)
+                        observer = createObserver(element);
         }).catch((error: Error) => {
                 console.error(error);
         });
@@ -64,38 +67,39 @@ function moveBreadcrumbs(element: HTMLElement): void {
         if (!editor)
                 return;
 
-        // Create custom container if it does not exist.
-        let breadcrumbsContainer = document.querySelector("#storterald-breadcrumbs-container");
-        if (!breadcrumbsContainer) {
-                breadcrumbsContainer = document.createElement("div");
-                breadcrumbsContainer.id = "storterald-breadcrumbs-container";
-                editor.appendChild(breadcrumbsContainer);
-        }
+        // Create custom container.
+        let container = document.createElement("div");
+        container.id = "storterald-breadcrumbs-container";
+        container.appendChild(element);
+        console.log(container);
+        editor.appendChild(container);
+        console.log(editor);
 
-        // Move breadcrumbs
-        breadcrumbsContainer.appendChild(element);
-
-        // Observer to check for breadcrumbs deletion
         let options: MutationObserverInit = {
                 childList: true,
                 attributes: false,
                 subtree: false
         };
-        let observer = new MutationObserver(() => {
+
+        // Observer to check for breadcrumbs deletion
+        let subObserver = new MutationObserver(() => {
+                console.info(`Mutation detected for element [.breadcrumbs-below-tabs]`);
+
                 // Avoid recursion
-                observer.disconnect();
+                subObserver.disconnect();
 
                 // The original breadcrumbs is above the custom one
                 let breadcrumbs = document.querySelector(".breadcrumbs-below-tabs");
-                if (breadcrumbs) {
+                if (breadcrumbs)
                         // Replace the now empty breadcrumbs with the new ones
-                        breadcrumbsContainer.removeChild(element);
-                        breadcrumbsContainer.appendChild(breadcrumbs);
-                }
+                        container.replaceChildren(breadcrumbs);
                 
-                observer.observe(element, options);
+                // Should observe the breadcrumbs itself as the outer div is
+                // left alive without children.
+                subObserver.observe(container.firstChild!, options);
         });
-        observer.observe(element, options);
+
+        subObserver.observe(container.firstChild!, options);
 }
 
 function moveBottomButtons(element: HTMLElement): void {
@@ -145,14 +149,5 @@ function moveBottomButtons(element: HTMLElement): void {
         }
 }
 
-function deleteHoverText(element: HTMLElement) {
-        document.removeChild(element);
-}
-
-observeDiv(".breadcrumbs-below-tabs", moveBreadcrumbs);
+observeDiv(".breadcrumbs-below-tabs", moveBreadcrumbs, false);
 observeDiv("#workbench\\.parts\\.activitybar", moveBottomButtons);
-observeDiv(".context-view.monaco-component.bottom.left", deleteHoverText, {
-        childList: true,
-        attributes: false,
-        subtree: false
-});

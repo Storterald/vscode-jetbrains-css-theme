@@ -1,5 +1,15 @@
 # Changelog
 
+## Release 1.1.0
+
+### New Features
+
+ - Moved bottom buttons (**settings** and **account**) to the `titlebar`.
+
+### Bug Fixes
+
+ - Fixes `breadcrumbs` disappearing.
+
 ## Release 1.0.0
 
 ### New features
