@@ -149,5 +149,12 @@ function moveBottomButtons(element: HTMLElement): void {
         }
 }
 
+function addGradientDiv(element: HTMLElement): void {
+        const div = document.createElement("div");
+        div.id = "storterald-window-appicon-gradient";
+        element.prepend(div);
+}
+
 observeDiv(".breadcrumbs-below-tabs", moveBreadcrumbs, false);
 observeDiv("#workbench\\.parts\\.activitybar", moveBottomButtons);
+observeDiv(".titlebar-left", addGradientDiv, false);
