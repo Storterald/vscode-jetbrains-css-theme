@@ -16,3 +16,7 @@
     background: inherit;
     padding-left: .75%;
 }
+
+.monaco-breadcrumbs .monaco-icon-label {
+    padding-bottom: 1%;
+}

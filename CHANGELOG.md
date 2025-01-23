@@ -5,6 +5,8 @@
 ### New Features
 
  - Moved bottom buttons (**settings** and **account**) to the `titlebar`.
+ - Moved the `quick-input-widget` to the **middle** of the window.
+ - **Rounded** `explorer` list items background.
 
 ### Bug Fixes
 
