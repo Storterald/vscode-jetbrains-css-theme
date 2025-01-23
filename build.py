@@ -13,7 +13,7 @@ PACKAGE_LOCK: str = ""
 def getVersion() -> str:
         if not os.path.exists(VERSION_DIR):
                 os.mkdir(VERSION_DIR)
-                subprocess.run(["git", "clone", "--depth", "1", "--no-checkout", "https://github.com/Storterald/Jetbrains-IDE-Look", "."], cwd=VERSION_DIR, shell=True)
+                subprocess.run(["git", "clone", "--depth", "1", "--no-checkout", "https://github.com/Storterald/VSCode-Jetbrains-Looks", "."], cwd=VERSION_DIR, shell=True)
                 subprocess.run(["git", "fetch", "--tags", "--depth", "1"], cwd=VERSION_DIR, shell=True)
         else:
                 subprocess.run(["git", "pull", "--depth", "1"], cwd=VERSION_DIR, shell=True)
