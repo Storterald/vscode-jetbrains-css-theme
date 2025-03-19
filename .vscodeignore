@@ -1,0 +1,29 @@
+# VS Code
+.vscode/**
+
+# Jetbrains
+.idea/**
+node_modules/**
+
+# Git
+.gitignore
+
+# Code
+libs/**
+src/**
+ts/**
+**/*.tsbuildinfo
+tsconfig.json
+
+# Build Files
+.version-getter/**
+build.py
+infos.py
+__pycache__
+js/**/*.map
+
+# Resources
+resources/icon.svg
+
+# Other
+.showcase/

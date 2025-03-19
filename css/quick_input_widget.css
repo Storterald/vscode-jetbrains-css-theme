@@ -1,0 +1,10 @@
+.quick-input-widget {
+    transform: translateY(-50%);
+    top: 50% !important;
+    box-shadow: 0px 0px 12px #0000003F !important;
+    border-radius: unset;
+}
+
+.quick-input-widget .monaco-inputbox {
+    border-radius: .3rem;
+}

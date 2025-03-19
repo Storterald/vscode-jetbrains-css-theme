@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "../js",
+    "rootDir": ".",
+    "strict": true,
+    "incremental": false,
+    "lib": [
+      "DOM"
+    ],
+  },
+  "include": [
+    "**/*"
+  ]
+}
