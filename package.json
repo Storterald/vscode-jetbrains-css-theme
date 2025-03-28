@@ -121,6 +121,6 @@
     "typescript": "^5.6.3"
   },
   "repository": {
-    "url": "https://github.com/Storterald/Jetbrains-IDE-Look"
+    "url": "https://github.com/Storterald/vscode-jetbrains-css-theme"
   }
 }
