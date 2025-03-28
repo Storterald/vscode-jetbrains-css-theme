@@ -3,7 +3,6 @@
 
 # Jetbrains
 .idea/
-node_modules/
 
 # .vsix file
 *.vsix
@@ -12,6 +11,8 @@ node_modules/
 .version-getter/
 build/
 __pycache__
+node_modules/
+package-lock.json
 
 # Compiled files
 js/

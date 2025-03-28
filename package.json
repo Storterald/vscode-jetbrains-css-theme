@@ -1,8 +1,8 @@
 {
-  "name": "jetbrains-ide-look",
-  "displayName": "Jetbrains IDE Look",
+  "name": "vscode-jetbrains-css-theme",
+  "displayName": "Jetbrains CSS Theme",
   "icon": "logo.png",
-  "description": "Jetbrains IDE Look",
+  "description": "Jetbrains custom CSS theme for VS Code",
   "version": "--version",
   "publisher": "Storterald",
   "engines": {
